@@ -16,7 +16,7 @@ class TestController
      * @param Request $request
      * @return Response
      */
-    public function getCategories(Request $request): Response
+    public function test(Request $request): Response
     {
         $requestBody = json_decode($request->getContent(), true);
         $test = $requestBody['test'];
