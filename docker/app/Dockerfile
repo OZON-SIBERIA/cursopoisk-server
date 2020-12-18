@@ -15,4 +15,5 @@ RUN php -r "unlink('composer-setup.php');"
 RUN mkdir -p /usr/local/bin
 RUN mv composer.phar /usr/local/bin/composer
 
+#install pdo-mysql extension
 RUN docker-php-ext-install pdo_mysql
