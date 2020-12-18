@@ -21,7 +21,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ./api/:/srv/cursopoisk
+      - ./app/:/srv/cursopoisk
 
   mysql:
     image: percona:8.0.15-5-centos
