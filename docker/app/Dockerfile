@@ -1,6 +1,6 @@
 FROM php:7.4-fpm
 
-WORKDIR /srv/store_parser
+WORKDIR /srv/cursopoisk
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
@@ -16,3 +16,5 @@ RUN mkdir -p /usr/local/bin
 RUN mv composer.phar /usr/local/bin/composer
 
 RUN docker-php-ext-install pdo_mysql
+
+RUN composer install
