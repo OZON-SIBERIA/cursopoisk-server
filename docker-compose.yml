@@ -16,7 +16,7 @@ services:
     #image: php:7.4-fpm
     build:
       context: ./
-      dockerfile: docker/api/Dockerfile
+      dockerfile: docker/app/Dockerfile
     working_dir: /srv/cursopoisk
     depends_on:
       - mysql
