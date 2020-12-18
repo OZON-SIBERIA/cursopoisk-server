@@ -16,6 +16,3 @@ RUN mkdir -p /usr/local/bin
 RUN mv composer.phar /usr/local/bin/composer
 
 RUN docker-php-ext-install pdo_mysql
-
-RUN cd app/
-RUN composer install
