@@ -71,4 +71,11 @@ class UserRepository
     {
         return $this->entityManager->getRepository(User::class)->findOneBy($criteria);
     }
+
+    public function saveUserToken($user, $token)
+    {
+        $user->setApiToken($token);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
 }

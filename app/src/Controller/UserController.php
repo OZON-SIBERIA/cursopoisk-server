@@ -95,19 +95,13 @@ class UserController
             return new JsonResponse('Incorrect password or email', 500);
         }
 
-
-        $userToken = new UserToken($user);
-        $this->entityManager->persist($userToken);
-        $entityManager->flush();
-
-        $now = new \DateTime();
+        $userToken = base64_encode(random_bytes(50));
+        $this->userRepository->saveUserToken($user, $userToken);
 
         return new JsonResponse(
             [
-                'token' => $userToken->getToken(),
-                'expiresIn' => $userToken->getExpiresOn()->getTimestamp() - $now->getTimestamp()
+                'token' => $userToken,
             ]
         );
-
     }
 }
