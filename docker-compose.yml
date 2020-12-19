@@ -22,7 +22,6 @@ services:
       - mysql
     volumes:
       - ./app/:/srv/cursopoisk
-    command: composer install --ignore-platform-reqs
 
   mysql:
     image: percona:8.0.15-5-centos
