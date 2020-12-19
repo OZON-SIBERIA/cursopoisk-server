@@ -70,6 +70,6 @@ class UserRepository
 
     public function findOneBy($criteria)
     {
-        return $this->entityManager->getRepository(Uset::class)->findOneBy($criteria);
+        return $this->entityManager->getRepository(User::class)->findOneBy($criteria);
     }
 }

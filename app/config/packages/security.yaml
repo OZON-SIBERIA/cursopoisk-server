@@ -18,7 +18,7 @@ security:
         main:
             pattern: ^/(?!register|login)
             stateless: true
-            
+
             provider: token_user_provider
             anonymous: ~
 
