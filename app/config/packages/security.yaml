@@ -7,7 +7,7 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        app_user_provider:
+        token_user_provider:
             entity:
                 # the class of the entity that represents users
                 class: 'App\Entity\User'
