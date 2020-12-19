@@ -40,6 +40,7 @@ class TimeController
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
+        var_dump($token);
         $day = $request->query->get('day');
         $time = $request->query->get('time');
 
@@ -58,6 +59,31 @@ class TimeController
         $timeObject->setTime($time);
         $timeObject->setUserId($user);
         $this->timeRepository->save($timeObject);
+
+        return new JsonResponse('Time is created');
+    }
+
+    /**
+     * @Route("/time/getall", name="getalltime", methods={"GET"})
+     * @param Request $request
+     * @return Response
+     */
+    public function getAll(Request $request): Response
+    {
+        $token = $request->headers->get('X-AUTH-TOKEN');
+        $token = str_replace('\\', '', $token);
+
+        if (null === $token) {
+            return new JsonResponse('Token is incorrect', 500);
+        }
+
+        if (!$this->userRepository->findOneBy(['token' => $token])) {
+            return new JsonResponse('Token is incorrect', 500);
+        }
+
+        $user = $this->userRepository->findOneBy(['token' => $token]);
+
+        $times = $this->timeRepository->findBy(['user_id' => $user->getId()]);
 
         return new JsonResponse('Time is created');
     }
