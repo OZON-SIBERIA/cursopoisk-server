@@ -21,7 +21,9 @@ class TestController
         $requestBody = json_decode($request->getContent(), true);
         $test = $requestBody['test'];
 
-        $results = $test . 'done';
+        $results = array();
+        $results += ['testA' => $test . 'done'];
+        $results += ['testB' => 'я ответ'];
 
         return new JsonResponse($results);
     }
