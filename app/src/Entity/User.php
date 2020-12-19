@@ -55,9 +55,15 @@ class User implements UserInterface
      */
     private $times;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author")
+     */
+    private $posts;
+
     public function __construct()
     {
         $this->times = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     /**

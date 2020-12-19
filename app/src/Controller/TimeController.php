@@ -51,7 +51,7 @@ class TimeController
         $day = $request->query->get('day');
         $time = $request->query->get('time');
 
-        $this->logger->debug ("р", $request->headers->all());
+        $this->logger->debug("р", $request->headers->all());
 
         if (null === $token ||  null === $day || null === $time) {
             return new JsonResponse('Data is incorrect', 500);
@@ -96,6 +96,6 @@ class TimeController
 
         $times = $this->timeRepository->findBy(['user_id' => $user->getId()]);
 
-        return new JsonResponse('Time is created');
+        return new JsonResponse($times);
     }
 }
