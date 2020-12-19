@@ -39,7 +39,7 @@ class TimeController
     public function make(Request $request): Response
     {
         $requestBody = json_decode($request->getContent(), true);
-        $token = $requestBody['token'];
+        $token = $request->headers->get('X-AUTH-TOKEN');
         $day = $requestBody['day'];
         $time = $requestBody['time'];
 
