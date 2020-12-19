@@ -17,3 +17,5 @@ RUN mv composer.phar /usr/local/bin/composer
 
 #install pdo-mysql extension
 RUN docker-php-ext-install pdo_mysql
+
+CMD bash -c "composer install"

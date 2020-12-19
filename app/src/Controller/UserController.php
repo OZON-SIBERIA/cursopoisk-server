@@ -51,11 +51,11 @@ class UserController
         $password = $requestBody['password'];
 
         if (null === $name ||  null === $lastName || null === $email || null === $password) {
-            return new JsonResponse('Data is incorrect');
+            return new JsonResponse('Data is incorrect', 500);
         }
 
         if ($this->userRepository->findOneBy(['email' => $email])) {
-            return new JsonResponse('This e-mail is already used !');
+            return new JsonResponse('This e-mail is already used !', 500);
         }
 
         $this->userRepository->createUser($name, $lastName, $email, $password);
