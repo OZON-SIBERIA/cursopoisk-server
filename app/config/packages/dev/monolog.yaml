@@ -19,4 +19,4 @@ monolog:
             channels: ["!event", "!doctrine", "!console"]
         file_log:
             type: stream
-            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            path: /var/log/symfony.log
