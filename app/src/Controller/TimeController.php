@@ -80,7 +80,7 @@ class TimeController
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
 
-        $this->logger->info($token);
+        $this->logger->debug($token);
 
         if (null === $token) {
             return new JsonResponse('Token is incorrect', 500);
