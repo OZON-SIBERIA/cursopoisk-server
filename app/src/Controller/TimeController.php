@@ -51,6 +51,8 @@ class TimeController
         $day = $request->query->get('day');
         $time = $request->query->get('time');
 
+        $this->logger->debug($token);
+
         if (null === $token ||  null === $day || null === $time) {
             return new JsonResponse('Data is incorrect', 500);
         }
