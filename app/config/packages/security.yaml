@@ -21,9 +21,7 @@ security:
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: true
-
-            provider: token_user_provider
+            security: false
 
         main:
             pattern: ^/(?!register|login)
