@@ -82,7 +82,7 @@ class TimeController
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
 
-        $this->logger->debug($token);
+        $this->logger->debug("р", $request->headers->all());
 
         if (null === $token) {
             return new JsonResponse('Token is incorrect', 500);
@@ -96,6 +96,12 @@ class TimeController
 
         $times = $this->timeRepository->findBy(['user_id' => $user->getId()]);
 
-        return new JsonResponse($times);
+
+        $result = array();
+        foreach ($times as $time) {
+            $result += ['day' => $time->getDay(), 'time' => $time->getTime()];
+        }
+
+        return new JsonResponse($result);
     }
 }
