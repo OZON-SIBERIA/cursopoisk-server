@@ -75,14 +75,12 @@ class UserController
     }
 
     /**
-     * @Route("/user/login", name="login", methods={"POST", "GET"})
+     * @Route("/user/login", name="login", methods={"GET"})
      * @param Request $request
      * @return Response
      */
     public function login(Request $request): Response
     {
-        var_dump($request->getContent());
-        var_dump($request->getUri());
         $email = $request->query->get('email');
         $password = $request->query->get('password');
 
