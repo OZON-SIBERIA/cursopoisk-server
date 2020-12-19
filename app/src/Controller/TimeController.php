@@ -32,7 +32,7 @@ class TimeController
     }
 
     /**
-     * @Route("/time/make", name="maketime", methods={"POST, GET"})
+     * @Route("/time/make", name="maketime", methods={"GET"})
      * @param Request $request
      * @return Response
      */
