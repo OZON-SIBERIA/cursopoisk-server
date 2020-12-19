@@ -47,11 +47,11 @@ class TimeController
             return new JsonResponse('Data is incorrect', 500);
         }
 
-        if ($this->userRepository->findOneBy(['api_token' => $token])) {
+        if ($this->userRepository->findOneBy(['token' => $token])) {
             return new JsonResponse('This token is incorrect', 500);
         }
 
-        $user = $this->userRepository->findOneBy(['api_token' => $token]);
+        $user = $this->userRepository->findOneBy(['token' => $token]);
         $userId = $user->getId();
 
         $timeObject = new Time();

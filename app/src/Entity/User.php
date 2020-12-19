@@ -48,7 +48,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", unique=true, nullable=true)
      */
-    private $apiToken;
+    private $token;
 
     /**
      * @ORM\OneToMany(targetEntity=Time::class, mappedBy="user_id")
@@ -63,9 +63,9 @@ class User implements UserInterface
     /**
      * @return mixed
      */
-    public function getApiToken()
+    public function getToken()
     {
-        return $this->apiToken;
+        return $this->token;
     }
 
     public function getId(): ?int
@@ -133,11 +133,11 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $apiToken
+     * @param mixed $token
      */
-    public function setApiToken($apiToken): void
+    public function setToken($token): void
     {
-        $this->apiToken = $apiToken;
+        $this->token = $token;
     }
 
     /**
