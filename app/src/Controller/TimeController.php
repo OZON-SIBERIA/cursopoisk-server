@@ -73,11 +73,11 @@ class TimeController
     }
 
     /**
-     * @Route("/time/getall", name="getalltime", methods={"GET"})
+     * @Route("/time/get", name="gettime", methods={"GET"})
      * @param Request $request
      * @return Response
      */
-    public function getAll(Request $request): Response
+    public function get(Request $request): Response
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);

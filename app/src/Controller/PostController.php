@@ -103,5 +103,80 @@ class PostController
         return new JsonResponse('Post created');
     }
 
+    /**
+     * @Route("/post/get", name="getposts", methods={"GET"})
+     * @param Request $request
+     * @return Response
+     */
+    public function get(Request $request): Response
+    {
+        $token = $request->headers->get('X-AUTH-TOKEN');
+        $token = str_replace('\\', '', $token);
 
+        $this->logger->debug("р", $request->headers->all());
+
+        if (null === $token) {
+            return new JsonResponse('Token is incorrect', 500);
+        }
+
+        if (!$this->userRepository->findOneBy(['token' => $token])) {
+            return new JsonResponse('Token is incorrect', 500);
+        }
+
+        $user = $this->userRepository->findOneBy(['token' => $token]);
+
+        $posts = $this->postRepository->findBy(['author' => $user->getId()]);
+
+        $result = array();
+
+        foreach ($posts as $post) {
+            $result[] = ['type' => $post->getType(), 'time' => $post->getTime(),
+                'text' => $post->getText(), 'subject' => $post->getSubject(),
+                'price' => $post->getPrice(), 'form' => $post->getForm(),
+                'duration' => $post->getDuration()];
+        }
+
+        return new JsonResponse($result);
+    }
+
+    /**
+     * @Route("/post/getby", name="postgetby", methods={"GET"})
+     * @param Request $request
+     * @return Response
+     */
+    public function getBy(Request $request): Response
+    {
+        $requestBody = json_decode($request->getContent(), true);
+        $token = $request->headers->get('X-AUTH-TOKEN');
+        $token = str_replace('\\', '', $token);
+
+        $criteria = $requestBody['criteria'];
+        $searchValue = $requestBody['searchValue'];
+        $page = $requestBody['page'];
+        $limit = $requestBody['limit'];
+
+        $this->logger->debug("р", $request->headers->all());
+
+        if (null === $token || null === $criteria || null === $searchValue || null === $page || null === $limit) {
+            return new JsonResponse('Data is incorrect', 500);
+        }
+
+        if (!$this->userRepository->findOneBy(['token' => $token])) {
+            return new JsonResponse('Token is incorrect', 500);
+        }
+
+        $postsInResult = $this->postRepository->findPaginate($criteria, $page, $limit);
+        $maxPages = $this->postRepository->getMaxPages($criteria, $limit);
+
+        $posts = array();
+
+        foreach ($postsInResult as $post) {
+            $posts[] = ['type' => $post->getType(), 'time' => $post->getTime(),
+                'text' => $post->getText(), 'subject' => $post->getSubject(),
+                'price' => $post->getPrice(), 'form' => $post->getForm(),
+                'duration' => $post->getDuration()];
+        }
+
+        return new JsonResponse(['maxPage' => $maxPages, 'posts' => $posts]);
+    }
 }
