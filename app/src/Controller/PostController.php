@@ -165,8 +165,8 @@ class PostController
             return new JsonResponse('Token is incorrect', 500);
         }
 
-        $postsInResult = $this->postRepository->findPaginate($criteria, $page, $limit);
-        $maxPages = $this->postRepository->getMaxPages($criteria, $limit);
+        $postsInResult = $this->postRepository->findPaginate([$criteria => $searchValue], $page, $limit);
+        $maxPages = $this->postRepository->getMaxPages([$criteria => $searchValue], $limit);
 
         $posts = array();
 
