@@ -81,7 +81,7 @@ class UserController
      */
     public function login(Request $request): Response
     {
-        $requestBody = json_decode($request->getContent(), true);
+        $requestBody = $request->getContent();
         $email = $requestBody['email'];
         $password = $requestBody['password'];
 
@@ -98,10 +98,6 @@ class UserController
         $userToken = base64_encode(random_bytes(50));
         $this->userRepository->saveUserToken($user, $userToken);
 
-        return new JsonResponse(
-            [
-                'token' => $userToken,
-            ]
-        );
+        return new JsonResponse(['token' => $userToken,]);
     }
 }
