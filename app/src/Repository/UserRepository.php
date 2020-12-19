@@ -74,7 +74,7 @@ class UserRepository
 
     public function saveUserToken($user, $token)
     {
-        $user->setApiToken($token);
+        $user->setToken($token);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
