@@ -49,7 +49,8 @@ class TimeController
 
         if (!$this->userRepository->findOneBy(['token' => $token])) {
             var_dump($token);
-            var_dump($this->userRepository->findOneBy(['email' => 'mailA@mail.com']));
+            $tokenTest = $this->userRepository->findOneBy(['email' => 'mailA@mail.com']);
+            var_dump($tokenTest->getToken());
             return new JsonResponse('This token is incorrect', 500);
         }
 
