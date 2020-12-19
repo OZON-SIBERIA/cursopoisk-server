@@ -38,7 +38,7 @@ class UserController
     }
 
     /**
-     * @Route("/user/register", name="test", methods={"POST", "GET"})
+     * @Route("/user/register", name="register", methods={"POST", "GET"})
      * @param Request $request
      * @return Response
      */
