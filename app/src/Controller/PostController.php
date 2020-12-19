@@ -171,7 +171,7 @@ class PostController
         $posts = array();
 
         foreach ($postsInResult as $post) {
-            $posts[] = ['type' => $post->getType(), 'time' => $post->getTime(),
+            $posts[] = ['author' => $post->getAuthor(), 'type' => $post->getType(), 'time' => $post->getTime(),
                 'text' => $post->getText(), 'subject' => $post->getSubject(),
                 'price' => $post->getPrice(), 'form' => $post->getForm(),
                 'duration' => $post->getDuration()];
