@@ -40,7 +40,6 @@ class TimeController
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
-        var_dump($token);
         $day = $request->query->get('day');
         $time = $request->query->get('time');
 
