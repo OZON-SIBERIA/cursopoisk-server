@@ -52,12 +52,11 @@ class TimeController
         }
 
         $user = $this->userRepository->findOneBy(['token' => $token]);
-        $userId = $user->getId();
 
         $timeObject = new Time();
         $timeObject->setDay($day);
         $timeObject->setTime($time);
-        $timeObject->setUserId($userId);
+        $timeObject->setUserId($user);
         $this->timeRepository->save($timeObject);
 
         return new JsonResponse('Time is created');
