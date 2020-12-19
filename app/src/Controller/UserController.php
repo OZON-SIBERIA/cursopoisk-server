@@ -81,7 +81,8 @@ class UserController
      */
     public function login(Request $request): Response
     {
-        var_dump($request);
+        var_dump($request->getContent());
+        var_dump($request->getUri());
         $email = $request->query->get('email');
         $password = $request->query->get('password');
 
