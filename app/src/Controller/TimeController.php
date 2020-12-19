@@ -51,7 +51,7 @@ class TimeController
             return new JsonResponse('This token is incorrect', 500);
         }
 
-        $user = $this->userRepository->findOneBy(['token' => $token]);
+        $user = $this->userRepository->findOneBy(['api_token' => $token]);
         $userId = $user->getId();
 
         $timeObject = new Time();
