@@ -44,7 +44,6 @@ class UserRepository
     public function createUser(string $firstname, string $lastname, string $email,
                                string $password): User
     {
-
         $user = new User();
         $user->setUserName($firstname);
         $user->setLastname($lastname);
