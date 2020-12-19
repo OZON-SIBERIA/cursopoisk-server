@@ -48,6 +48,7 @@ class TimeController
         }
 
         if (!$this->userRepository->findOneBy(['token' => $token])) {
+            var_dump($token);
             return new JsonResponse('This token is incorrect', 500);
         }
 
