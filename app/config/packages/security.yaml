@@ -22,6 +22,9 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: true
+
+            provider: token_user_provider
+
         main:
             pattern: ^/(?!register|login)
             stateless: true
