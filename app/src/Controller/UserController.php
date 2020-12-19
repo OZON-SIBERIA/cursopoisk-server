@@ -81,9 +81,8 @@ class UserController
      */
     public function login(Request $request): Response
     {
-        $requestBody = $request->getContent();
-        $email = $requestBody['email'];
-        $password = $requestBody['password'];
+        $email = $request->query->get('email');
+        $password = $request->query->get('password');
 
         if (null === $email || null === $password) {
             return new JsonResponse('Data is incorrect', 500);
