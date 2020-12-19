@@ -9,7 +9,7 @@ security:
     providers:
         in_memory: { memory: ~ }
         token_user_provider:
-            id: App\Security\TokenUserProvider
+            id: App\Security\TokenAuthenticator
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
@@ -18,8 +18,7 @@ security:
         main:
             pattern: ^/(?!register|login)
             stateless: true
-            simple_preauth:
-                authenticator: App\Security\UserTokenAuthenticator
+            
             provider: token_user_provider
             anonymous: ~
 
