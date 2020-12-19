@@ -53,7 +53,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Time::class, mappedBy="user_id")
      */
-    private ArrayCollection $times;
+    private $times;
 
     public function __construct()
     {
