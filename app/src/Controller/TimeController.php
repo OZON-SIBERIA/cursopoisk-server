@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Time;
 use App\Repository\TimeRepository;
 use App\Repository\UserRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,11 +25,18 @@ class TimeController
      */
     private TimeRepository $timeRepository;
 
+    /**
+     * @var LoggerInterface $logger
+     */
+    private LoggerInterface $logger;
+
     public function __construct(TimeRepository $timeRepository,
-                                UserRepository $userRepository)
+                                UserRepository $userRepository,
+                                LoggerInterface $logger)
     {
         $this->timeRepository = $timeRepository;
         $this->userRepository =  $userRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -71,6 +79,8 @@ class TimeController
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
+
+        $this->logger->info($token);
 
         if (null === $token) {
             return new JsonResponse('Token is incorrect', 500);
