@@ -38,20 +38,16 @@ class TimeController
      */
     public function make(Request $request): Response
     {
-        $requestBody = json_decode($request->getContent(), true);
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
-        $day = $requestBody['day'];
-        $time = $requestBody['time'];
+        $day = $request->query->get('day');
+        $time = $request->query->get('time');
 
         if (null === $token ||  null === $day || null === $time) {
             return new JsonResponse('Data is incorrect', 500);
         }
 
         if (!$this->userRepository->findOneBy(['token' => $token])) {
-            var_dump($token);
-            $tokenTest = $this->userRepository->findOneBy(['email' => 'mailA@mail.com']);
-            var_dump($tokenTest->getToken());
             return new JsonResponse('This token is incorrect', 500);
         }
 
