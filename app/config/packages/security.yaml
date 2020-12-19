@@ -1,28 +1,31 @@
 security:
     encoders:
         App\Entity\User:
-            algorithm: auto
+            algorithm: bcrypt
+            cost: 12
 
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        mysql:
-            entity:
-                class: App\Entity\User
-                property: apiToken
+        in_memory: { memory: ~ }
+        token_user_provider:
+            id: App\Security\TokenUserProvider
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
-            lazy: true
-            provider: mysql
-            guard:
-                authenticators:
-                    - App\Security\TokenAuthenticator
+            pattern: ^/(?!register|login)
+            stateless: true
+            simple_preauth:
+                authenticator: App\Security\UserTokenAuthenticator
+            provider: token_user_provider
+            anonymous: ~
+
+                # where to redirect after logout
+                # target: app_any_route
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

@@ -20,9 +20,19 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180)
      */
-    private $username;
+    private $userName;
+
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $email;
 
     /**
      * @ORM\Column(type="json")
@@ -58,16 +68,24 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUserName(): string
     {
-        return (string)$this->username;
+        return (string)$this->userName;
     }
 
-    public function setUsername(string $username): self
+    public function setUserName(string $userName): self
     {
-        $this->username = $username;
+        $this->name = $userName;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
     }
 
     /**
@@ -105,19 +123,43 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
-
-    /**
      * @param mixed $apiToken
      */
     public function setApiToken($apiToken): void
     {
         $this->apiToken = $apiToken;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**
