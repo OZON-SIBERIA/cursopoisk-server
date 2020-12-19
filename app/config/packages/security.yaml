@@ -21,7 +21,7 @@ security:
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+            security: true
         main:
             pattern: ^/(?!register|login)
             stateless: true
