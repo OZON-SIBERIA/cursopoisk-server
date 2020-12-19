@@ -5,7 +5,6 @@ namespace App\Repository;
 
 use App\Entity\Time;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TimeRepository
 {
@@ -45,5 +44,14 @@ class TimeRepository
     public function findOneBy($criteria)
     {
         return $this->entityManager->getRepository(Time::class)->findOneBy($criteria);
+    }
+
+    /**
+     * @param $criteria
+     * @return object[]
+     */
+    public function findAll()
+    {
+        return $this->entityManager->getRepository(Time::class)->findAll();
     }
 }

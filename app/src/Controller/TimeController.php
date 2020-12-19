@@ -96,8 +96,9 @@ class TimeController
 
         $times = $this->timeRepository->findBy(['user_id' => $user->getId()]);
 
-
         $result = array();
+
+        var_dump($times);
         foreach ($times as $time) {
             $result += ['day' => $time->getDay(), 'time' => $time->getTime()];
         }
