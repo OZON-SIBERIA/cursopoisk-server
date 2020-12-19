@@ -88,7 +88,7 @@ class PostController
         }
 
         $user = $this->userRepository->findOneBy(['token' => $token]);
-        $author = $user->getName() . ' ' . $user->getLastName();
+        $author = $user->getUserName() . ' ' . $user->getLastName();
 
 
         $post = new Post();
