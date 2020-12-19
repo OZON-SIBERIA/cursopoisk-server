@@ -55,7 +55,7 @@ class UserController
         }
 
         if ($this->userRepository->findOneBy(['email' => $email])) {
-            return new Response('This e-mail is already used !');
+            return new JsonResponse('This e-mail is already used !');
         }
 
         $this->userRepository->createUser($name, $lastName, $email, $password);
