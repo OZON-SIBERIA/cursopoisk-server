@@ -10,14 +10,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController
 {
     protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private UserPasswordEncoderInterface $passwordEncoder;
+
+    public function __construct(UserRepository $userRepository,
+                                UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->userRepository = $userRepository;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -64,5 +72,42 @@ class UserController
         $results += ['result' => 'New user created'];
 
         return new JsonResponse($results);
+    }
+
+    /**
+     * @Route("/user/login", name="login", methods={"POST", "GET"})
+     * @param Request $request
+     * @return Response
+     */
+    public function login(Request $request): Response
+    {
+        $requestBody = json_decode($request->getContent(), true);
+        $email = $requestBody['email'];
+        $password = $requestBody['password'];
+
+        if (null === $email || null === $password) {
+            return new JsonResponse('Data is incorrect', 500);
+        }
+
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
+        if (null === $user || !$this->passwordEncoder->isPasswordValid($user, $password)) {
+            return new JsonResponse('Incorrect password or email', 500);
+        }
+
+
+        $userToken = new UserToken($user);
+        $this->entityManager->persist($userToken);
+        $entityManager->flush();
+
+        $now = new \DateTime();
+
+        return new JsonResponse(
+            [
+                'token' => $userToken->getToken(),
+                'expiresIn' => $userToken->getExpiresOn()->getTimestamp() - $now->getTimestamp()
+            ]
+        );
+
     }
 }
