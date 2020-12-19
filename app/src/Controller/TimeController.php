@@ -99,8 +99,7 @@ class TimeController
         $result = array();
         
         foreach ($times as $time) {
-            var_dump(['day' => $time->getDay(), 'time' => $time->getTime()]);
-            $result += ['day' => $time->getDay(), 'time' => $time->getTime()];
+            $result[] = ['day' => $time->getDay(), 'time' => $time->getTime()];
         }
 
         return new JsonResponse($result);
