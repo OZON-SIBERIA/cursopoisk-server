@@ -101,6 +101,6 @@ class UserController
         $userToken = 'wdadadjbj1rawdwadaw21=';
         $this->userRepository->saveUserToken($user, $userToken);
 
-        return new JsonResponse(['token' => $userToken,]);
+        return new JsonResponse(['token' => $userToken]);
     }
 }
