@@ -94,7 +94,11 @@ class UserController
             return new JsonResponse('Incorrect password or email', 500);
         }
 
-        $userToken = base64_encode(random_bytes(50));
+        /*$userToken = base64_encode(random_bytes(50));
+        * doesn`t work for android app
+        */
+
+        $userToken = 'wdadadjbj1rawdwadaw21=';
         $this->userRepository->saveUserToken($user, $userToken);
 
         return new JsonResponse(['token' => $userToken,]);
