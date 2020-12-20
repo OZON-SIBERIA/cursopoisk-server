@@ -125,7 +125,7 @@ class Post
      */
     public function setTimeStart($timeStart): void
     {
-        $this->time = $timeStart;
+        $this->timeStart = $timeStart;
     }
 
     /**
