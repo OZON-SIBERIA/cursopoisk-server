@@ -173,7 +173,9 @@ class PostController
         $posts = array();
 
         foreach ($postsInResult as $post) {
-            $posts[] = ['author' => $post->getAuthor(), 'type' => $post->getType(), 'time' => $post->getTime(),
+            $user = $this->userRepository->findOneBy(['id' => $post->getAuthor()]);
+            $author = $user->getUserName() . ' ' . $user->getLastName();
+            $posts[] = ['author' => $author, 'type' => $post->getType(), 'time' => $post->getTime(),
                 'text' => $post->getText(), 'subject' => $post->getSubject(),
                 'price' => $post->getPrice(), 'form' => $post->getForm(),
                 'duration' => $post->getDuration()];

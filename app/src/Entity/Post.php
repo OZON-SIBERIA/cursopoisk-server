@@ -19,7 +19,8 @@ class Post
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
+     * @ORM\JoinColumn(referencedColumnName="id", name="author")
      */
     private $author;
 

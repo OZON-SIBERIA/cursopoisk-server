@@ -69,7 +69,7 @@ class PostRepository
         if ($maxPages <= 1) {
             $offset = null;
         } else {
-            $offset = $limit * $page;
+            $offset = $limit * $page - 1;
         }
 
         return $this->entityManager->getRepository(Post::class)->findBy($criteria, array(), $limit, $offset);

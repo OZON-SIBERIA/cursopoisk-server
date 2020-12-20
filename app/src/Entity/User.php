@@ -55,16 +55,16 @@ class User implements UserInterface
      */
     private $times;
 
-    // /**
-    // * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author")
-    // */
-    // private $posts;
+    /**
+    * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author")
+    */
+    private $posts;
 
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
         $this->times = new ArrayCollection();
-        //$this->posts = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     /**
