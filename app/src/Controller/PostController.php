@@ -180,11 +180,11 @@ class PostController
         foreach ($postsInResult as $post) {
             $user = $this->userRepository->findOneBy(['id' => $post->getAuthor()]);
             $author = $user->getUserName() . ' ' . $user->getLastName();
-            $posts[] = ['id' => $post->getId(), 'author' => $author, 'type' => $post->getType(),
-                'timeStart' => $post->getTimeStart(), 'timeEnd' => $post->getTimeEnd(),
-                'text' => $post->getText(), 'subject' => $post->getSubject(),
-                'price' => $post->getPrice(), 'form' => $post->getForm(),
-                'duration' => $post->getDuration()];
+            $posts[] = ['id' => $post->getId(), 'author' => $author, 'authorId' => $post->getId,
+                'type' => $post->getType(), 'timeStart' => $post->getTimeStart(),
+                'timeEnd' => $post->getTimeEnd(), 'text' => $post->getText(),
+                'subject' => $post->getSubject(), 'price' => $post->getPrice(),
+                'form' => $post->getForm(), 'duration' => $post->getDuration()];
         }
 
         return new JsonResponse(['maxPage' => $maxPages, 'posts' => $posts]);
@@ -201,7 +201,7 @@ class PostController
         $token = str_replace('\\', '', $token);*/
         $token = $request->query->get('token');
         $token = str_replace('\\', '', $token);
-        $id = $request->query->get('author');
+        $id = $request->query->get('authorid');
 
         /*$this->logger->debug("р", $request->headers->all());*/
 
