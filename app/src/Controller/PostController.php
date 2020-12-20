@@ -95,6 +95,7 @@ class PostController
         $post->setAuthor($user);
         $post->setType($type);
         $post->setTimeStart($timeStart);
+        $post->setTimeEnd($timeEnd);
         $post->setText($text);
         $post->setSubject($subject);
         $post->setPrice($price);
