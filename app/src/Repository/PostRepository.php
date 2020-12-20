@@ -59,7 +59,7 @@ class PostRepository
 
     public function getMaxPages($criteria, $limit)
     {
-        return round($this->entityManager->getRepository(Post::class)->count($criteria) / $limit);
+        return ceil($this->entityManager->getRepository(Post::class)->count($criteria) / $limit);
     }
 
     public function findPaginate($criteria, $page, $limit)
