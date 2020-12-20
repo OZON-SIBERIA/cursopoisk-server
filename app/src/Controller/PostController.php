@@ -88,11 +88,9 @@ class PostController
         }
 
         $user = $this->userRepository->findOneBy(['token' => $token]);
-        $author = $user->getUserName() . ' ' . $user->getLastName();
-
 
         $post = new Post();
-        $post->setAuthor($author);
+        $post->setAuthor($user);
         $post->setType($type);
         $post->setTime($time);
         $post->setText($text);
