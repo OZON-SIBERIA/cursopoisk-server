@@ -16,3 +16,6 @@ docker-compose up --build
 ```bash
 docker-compose up
 ```
+
+ К сожалению, приложение полность мертвое (
+ 
