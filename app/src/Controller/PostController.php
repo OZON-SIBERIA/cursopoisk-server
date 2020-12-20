@@ -146,14 +146,13 @@ class PostController
      */
     public function getBy(Request $request): Response
     {
-        $requestBody = json_decode($request->getContent(), true);
         $token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
 
-        $criteria = $requestBody['criteria'];
-        $searchValue = $requestBody['searchValue'];
-        $page = $requestBody['page'];
-        $limit = $requestBody['limit'];
+        $criteria = $request->query->get('criteria');
+        $searchValue = $request->query->get('searchvalue');
+        $page = $request->query->get('page');
+        $limit = $request->query->get('limit');
 
         $this->logger->debug("р", $request->headers->all());
 
