@@ -220,7 +220,7 @@ class PostController
         //$post = $this->postRepository->findOneBy(['id' => $id]);
 
         $timesFrom = $this->timeRepository->findBy(['id' => $userFrom]);
-        $timesTo = $this->timeRepository->findBy(['id' => $userFrom]);
+        $timesTo = $this->timeRepository->findBy(['id' => $userTo]);
 
         foreach ($timesFrom as $timeFrom) {
             preg_match('/(.*?):/', $timeFrom->getTimeStart(), $result);
@@ -231,7 +231,7 @@ class PostController
             $timeFromEndTimeH = $result[1];
             preg_match('/:(.*?)-/', $timeFrom->getTimeEnd(), $result);
             $timeFromEndTimeM = $result[1];
-            $dayFrom = $userFrom->getDay();
+            $dayFrom = $timeFrom->getDay();
             foreach ($timesTo as $timeTo) {
                 preg_match('/(.*?):/', $timeTo->getTimeStart(), $result);
                 $timeToStartTimeH = $result[1];
@@ -241,7 +241,7 @@ class PostController
                 $timeToEndTimeH = $result[1];
                 preg_match('/:(.*?)-/', $timeTo->getTimeEnd(), $result);
                 $timeToEndTimeM = $result[1];
-                $dayTo = $userTo->getDay();
+                $dayTo = $timeTo->getDay();
                 if ((($timeFromStartTimeH <= $timeToStartTimeH) && ($timeFromStartTimeM <= $timeToStartTimeM)) &&
                     (($timeFromEndTimeH >= $timeToEndTimeH) && ($timeFromEndTimeM >= $timeToEndTimeM)) && $dayFrom === $dayTo) {
                     $results[] = ['user' => ['day' => $timeFrom->getDay(), 'timeStart' => $timeFrom->getTimeStart(),
