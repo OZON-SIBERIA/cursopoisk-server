@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Repository\TimeRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +21,15 @@ class UserController
      * @var UserPasswordEncoderInterface
      */
     private UserPasswordEncoderInterface $passwordEncoder;
+    private TimeRepository $timeRepository;
 
     public function __construct(UserRepository $userRepository,
-                                UserPasswordEncoderInterface $passwordEncoder)
+                                UserPasswordEncoderInterface $passwordEncoder,
+                                TimeRepository $timeRepository)
     {
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
+        $this->timeRepository = $timeRepository;
     }
 
     /**
@@ -58,7 +62,7 @@ class UserController
         $email = $requestBody['email'];
         $password = $requestBody['password'];
 
-        if (null === $name ||  null === $lastName || null === $email || null === $password) {
+        if (null === $name || null === $lastName || null === $email || null === $password) {
             return new JsonResponse('Data is incorrect', 500);
         }
 
@@ -101,6 +105,21 @@ class UserController
         $userToken = 'wdadadjbj1rawdwadaw21=';
         //$this->userRepository->saveUserToken($user, $userToken);
 
-        return new JsonResponse(['token' => $userToken]);
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
+        $times = $this->timeRepository->findBy(['user_id' => $user->getId()]);
+
+        $result = array();
+
+        foreach ($times as $time) {
+            $result[] = ['day' => $time->getDay(),
+                'timeStart' => str_replace('-', '', $time->getTimeStart()),
+                'timeEnd' => str_replace('-', '', $time->getTimeEnd())];
+        }
+
+        $userInfo[] = ['name' => $user->getUserName(), 'lastName' => $user->getLastName(),
+            'email' => $user->getEmail()];
+
+        return new JsonResponse(['token' => $userToken, 'time' => $result, 'userInfo' => $userInfo]);
     }
 }
