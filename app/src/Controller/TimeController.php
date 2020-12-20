@@ -61,9 +61,9 @@ class TimeController
             return new JsonResponse('Data is incorrect', 500);
         }
 
-        if (!$this->userRepository->findOneBy(['token' => $token])) {
+        /*if (!$this->userRepository->findOneBy(['token' => $token])) {
             return new JsonResponse('This token is incorrect', 500);
-        }
+        }*/
 
         $user = $this->userRepository->findOneBy(['token' => $token]);
 
@@ -96,9 +96,9 @@ class TimeController
             return new JsonResponse('Token is incorrect', 500);
         }
 
-        if (!$this->userRepository->findOneBy(['token' => $token])) {
+        /*if (!$this->userRepository->findOneBy(['token' => $token])) {
             return new JsonResponse('Token is incorrect', 500);
-        }
+        }*/
 
         $user = $this->userRepository->findOneBy(['token' => $token]);
 

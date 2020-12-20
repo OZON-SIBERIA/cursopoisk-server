@@ -124,9 +124,9 @@ class PostController
             return new JsonResponse('Token is incorrect', 500);
         }
 
-        if (!$this->userRepository->findOneBy(['token' => $token])) {
+        /*if (!$this->userRepository->findOneBy(['token' => $token])) {
             return new JsonResponse('Token is incorrect', 500);
-        }
+        }*/
 
         $user = $this->userRepository->findOneBy(['token' => $token]);
 
@@ -167,9 +167,9 @@ class PostController
             return new JsonResponse('Data is incorrect', 500);
         }
 
-        if (!$this->userRepository->findOneBy(['token' => $token])) {
+        /*if (!$this->userRepository->findOneBy(['token' => $token])) {
             return new JsonResponse('Token is incorrect', 500);
-        }
+        }*/
 
         $postsInResult = $this->postRepository->findPaginate([$criteria => $searchValue], $page, $limit);
         $maxPages = $this->postRepository->getMaxPages([$criteria => $searchValue], $limit);
@@ -208,9 +208,9 @@ class PostController
             return new JsonResponse('Data is incorrect', 500);
         }
 
-        if (!$this->userRepository->findOneBy(['token' => $token])) {
+        /*if (!$this->userRepository->findOneBy(['token' => $token])) {
             return new JsonResponse('Token is incorrect', 500);
-        }
+        }*/
 
         $userFrom = $this->userRepository->findOneBy(['token' => $token]);
         $userTo = $this->userRepository->findOneBy(['id' => $id]);
