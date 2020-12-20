@@ -180,7 +180,8 @@ class PostController
         foreach ($postsInResult as $post) {
             $user = $this->userRepository->findOneBy(['id' => $post->getAuthor()]);
             $author = $user->getUserName() . ' ' . $user->getLastName();
-            $posts[] = ['id' => $post->getId(), 'author' => $author, 'authorId' => $post->getId,
+            $authorId = $user->getId();
+            $posts[] = ['id' => $post->getId(), 'author' => $author, 'authorId' => $authorId,
                 'type' => $post->getType(), 'timeStart' => $post->getTimeStart(),
                 'timeEnd' => $post->getTimeEnd(), 'text' => $post->getText(),
                 'subject' => $post->getSubject(), 'price' => $post->getPrice(),
