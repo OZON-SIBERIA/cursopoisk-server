@@ -50,6 +50,7 @@ class TimeController
         $token = str_replace('\\', '', $token);*/
 
         $token= $request->query->get('token');
+        $token = str_replace('\\', '', $token);
         $day = $request->query->get('day');
         $timeStart = $request->query->get('timeStart');
         $timeEnd = $request->query->get('timeEnd');
@@ -89,6 +90,7 @@ class TimeController
         /*$this->logger->debug("р", $request->headers->all());*/
 
         $token= $request->query->get('token');
+        $token = str_replace('\\', '', $token);
 
         if (null === $token) {
             return new JsonResponse('Token is incorrect', 500);

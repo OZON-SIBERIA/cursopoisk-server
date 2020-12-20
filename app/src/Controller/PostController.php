@@ -118,6 +118,7 @@ class PostController
         $this->logger->debug("р", $request->headers->all());*/
 
         $token = $request->query->get('token');
+        $token = str_replace('\\', '', $token);
 
         if (null === $token) {
             return new JsonResponse('Token is incorrect', 500);
@@ -154,6 +155,7 @@ class PostController
         $token = str_replace('\\', '', $token);*/
 
         $token = $request->query->get('token');
+        $token = str_replace('\\', '', $token);
         $criteria = $request->query->get('criteria');
         $searchValue = $request->query->get('searchvalue');
         $page = $request->query->get('page');
@@ -197,6 +199,7 @@ class PostController
         /*$token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);*/
         $token = $request->query->get('token');
+        $token = str_replace('\\', '', $token);
         $id = $request->query->get('author');
 
         /*$this->logger->debug("р", $request->headers->all());*/
