@@ -19,4 +19,6 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN docker-php-ext-install pdo_mysql
 
 CMD bash -c "composer install"
+CMD bash -c "bin/console doctrine:schema:create"
+CMD bash -c "bin/console doctrine:schema:update"
 CMD bash -c "php-fpm -F -R"
