@@ -60,11 +60,17 @@ class User implements UserInterface
     */
     private $posts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Request::class, mappedBy="user")
+     */
+    private $requests;
+
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
         $this->times = new ArrayCollection();
         $this->posts = new ArrayCollection();
+        $this->requests = new ArrayCollection();
     }
 
     /**

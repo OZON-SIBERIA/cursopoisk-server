@@ -42,42 +42,44 @@ class PostController
                                 LoggerInterface $logger)
     {
         $this->timeRepository = $timeRepository;
-        $this->userRepository =  $userRepository;
+        $this->userRepository = $userRepository;
         $this->postRepository = $postRepository;
         $this->logger = $logger;
     }
 
     /**
-     * @Route("/post/make", name="makepost", methods={"POST"})
+     * @Route("/post/make", name="makepost", methods={"GET"})
      * @param Request $request
      * @return Response
      */
     public function make(Request $request): Response
     {
-        $token = $request->headers->get('X-AUTH-TOKEN');
+        /*$token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
 
-        $requestBody = json_decode($request->getContent(), true);
+        $requestBody = json_decode($request->getContent(), true);*/
 
-        $type = $requestBody['type'];
+        /*$type = $requestBody['type'];
         $time = $requestBody['time'];
         $text = $requestBody['text'];
         $subject = $requestBody['subject'];
         $price = $requestBody['price'];
         $form = $requestBody['form'];
-        $duration = $requestBody['duration'];
+        $duration = $requestBody['duration'];*/
 
-        /*$type = $request->query->get('type');
-        $time = $request->query->get('time');
+        $token = $request->query->get('token');
+        $type = $request->query->get('type');
+        $timeStart = $request->query->get('timeStart');
+        $timeEnd = $request->query->get('timeEnd');
         $text = $request->query->get('text');
         $subject = $request->query->get('subject');
         $price = $request->query->get('price');
         $form = $request->query->get('form');
-        $duration = $request->query->get('duration');*/
+        $duration = $request->query->get('duration');
 
         $this->logger->debug("р", $request->headers->all());
 
-        if (null === $token ||  null === $type || null === $time
+        if (null === $token || null === $type || null === $timeStart || null === $timeEnd
             || null === $text || null === $subject || null === $price
             || null === $form || null === $duration) {
             return new JsonResponse('Data is incorrect', 500);
@@ -92,7 +94,7 @@ class PostController
         $post = new Post();
         $post->setAuthor($user);
         $post->setType($type);
-        $post->setTime($time);
+        $post->setTimeStart($timeStart);
         $post->setText($text);
         $post->setSubject($subject);
         $post->setPrice($price);
@@ -110,10 +112,12 @@ class PostController
      */
     public function get(Request $request): Response
     {
-        $token = $request->headers->get('X-AUTH-TOKEN');
+        /*$token = $request->headers->get('X-AUTH-TOKEN');
         $token = str_replace('\\', '', $token);
 
-        $this->logger->debug("р", $request->headers->all());
+        $this->logger->debug("р", $request->headers->all());*/
+
+        $token = $request->query->get('token');
 
         if (null === $token) {
             return new JsonResponse('Token is incorrect', 500);
@@ -130,31 +134,32 @@ class PostController
         $result = array();
 
         foreach ($posts as $post) {
-            $result[] = ['type' => $post->getType(), 'time' => $post->getTime(),
-                'text' => $post->getText(), 'subject' => $post->getSubject(),
-                'price' => $post->getPrice(), 'form' => $post->getForm(),
-                'duration' => $post->getDuration()];
+            $result[] = ['type' => $post->getType(), 'timeStart' => $post->getTimeStart(),
+                'timeEnd' => $post->getTimeEnd(), 'text' => $post->getText(),
+                'subject' => $post->getSubject(), 'price' => $post->getPrice(),
+                'form' => $post->getForm(), 'duration' => $post->getDuration()];
         }
 
         return new JsonResponse($result);
     }
 
     /**
-     * @Route("/post/getby", name="postgetby", methods={"GET"})
+     * @Route("/post/search", name="postsearch", methods={"GET"})
      * @param Request $request
      * @return Response
      */
-    public function getBy(Request $request): Response
+    public function search(Request $request): Response
     {
-        $token = $request->headers->get('X-AUTH-TOKEN');
-        $token = str_replace('\\', '', $token);
+        /*$token = $request->headers->get('X-AUTH-TOKEN');
+        $token = str_replace('\\', '', $token);*/
 
+        $token = $request->query->get('token');
         $criteria = $request->query->get('criteria');
         $searchValue = $request->query->get('searchvalue');
         $page = $request->query->get('page');
         $limit = $request->query->get('limit');
 
-        $this->logger->debug("р", $request->headers->all());
+        /*$this->logger->debug("р", $request->headers->all());*/
 
         if (null === $token || null === $criteria || null === $searchValue || null === $page || null === $limit) {
             return new JsonResponse('Data is incorrect', 500);
@@ -172,12 +177,76 @@ class PostController
         foreach ($postsInResult as $post) {
             $user = $this->userRepository->findOneBy(['id' => $post->getAuthor()]);
             $author = $user->getUserName() . ' ' . $user->getLastName();
-            $posts[] = ['author' => $author, 'type' => $post->getType(), 'time' => $post->getTime(),
+            $posts[] = ['id' => $post->getId(), 'author' => $author, 'type' => $post->getType(),
+                'timeStart' => $post->getTimeStart(), 'timeEnd' => $post->getTimeEnd(),
                 'text' => $post->getText(), 'subject' => $post->getSubject(),
                 'price' => $post->getPrice(), 'form' => $post->getForm(),
                 'duration' => $post->getDuration()];
         }
 
         return new JsonResponse(['maxPage' => $maxPages, 'posts' => $posts]);
+    }
+
+    /**
+     * @Route("/post/cross", name="postcross", methods={"GET"})
+     * @param Request $request
+     * @return Response
+     */
+    public function cross(Request $request): Response
+    {
+        /*$token = $request->headers->get('X-AUTH-TOKEN');
+        $token = str_replace('\\', '', $token);*/
+        $token = $request->query->get('token');
+        $id = $request->query->get('author');
+
+        /*$this->logger->debug("р", $request->headers->all());*/
+
+        if (null === $token || null === $id) {
+            return new JsonResponse('Data is incorrect', 500);
+        }
+
+        if (!$this->userRepository->findOneBy(['token' => $token])) {
+            return new JsonResponse('Token is incorrect', 500);
+        }
+
+        $userFrom = $this->userRepository->findOneBy(['token' => $token]);
+        $userTo = $this->userRepository->findOneBy(['id' => $id]);
+
+        //$post = $this->postRepository->findOneBy(['id' => $id]);
+
+        $timesFrom = $this->timeRepository->findBy(['id' => $userFrom]);
+        $timesTo = $this->timeRepository->findBy(['id' => $userFrom]);
+
+        foreach ($timesFrom as $timeFrom) {
+            preg_match('/(.*?):/', $timeFrom->getTimeStart(), $result);
+            $timeFromStartTimeH = $result[1];
+            preg_match('/:(.*?)-/', $timeFrom->getTimeStart(), $result);
+            $timeFromStartTimeM = $result[1];
+            preg_match('/(.*?):/', $timeFrom->getTimeEnd(), $result);
+            $timeFromEndTimeH = $result[1];
+            preg_match('/:(.*?)-/', $timeFrom->getTimeEnd(), $result);
+            $timeFromEndTimeM = $result[1];
+            $dayFrom = $userFrom->getDay();
+            foreach ($timesTo as $timeTo) {
+                preg_match('/(.*?):/', $timeTo->getTimeStart(), $result);
+                $timeToStartTimeH = $result[1];
+                preg_match('/:(.*?)-/', $timeTo->getTimeStart(), $result);
+                $timeToStartTimeM = $result[1];
+                preg_match('/(.*?):/', $timeTo->getTimeEnd(), $result);
+                $timeToEndTimeH = $result[1];
+                preg_match('/:(.*?)-/', $timeTo->getTimeEnd(), $result);
+                $timeToEndTimeM = $result[1];
+                $dayTo = $userTo->getDay();
+                if ((($timeFromStartTimeH <= $timeToStartTimeH) && ($timeFromStartTimeM <= $timeToStartTimeM)) &&
+                    (($timeFromEndTimeH >= $timeToEndTimeH) && ($timeFromEndTimeM >= $timeToEndTimeM)) && $dayFrom === $dayTo) {
+                    $results[] = ['user' => ['day' => $timeFrom->getDay(), 'timeStart' => $timeFrom->getTimeStart(),
+                        'timeEnd' => $timeFrom->getTimeEnd()],
+                        'author' => ['day' => $timeTo->getDay(), 'timeStart' => $timeTo->getTimeStart(),
+                            'timeEnd' => $timeTo->getTimeEnd()]];
+                }
+            }
+        }
+
+        return new JsonResponse(['crossings' => $results]);
     }
 }

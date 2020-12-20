@@ -27,7 +27,12 @@ class Time
     /**
      * @ORM\Column(type="string", length=180)
      */
-    private $time;
+    private $timeStart;
+
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $timeEnd;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="times")
@@ -70,17 +75,17 @@ class Time
     /**
      * @return mixed
      */
-    public function getTime()
+    public function getTimeStart()
     {
-        return $this->time;
+        return $this->timeStart;
     }
 
     /**
-     * @param mixed $time
+     * @param mixed $timeStart
      */
-    public function setTime($time): void
+    public function setTimeStart($timeStart): void
     {
-        $this->time = $time;
+        $this->time = $timeStart;
     }
 
     /**
@@ -97,5 +102,21 @@ class Time
     public function setUserId($user_id): void
     {
         $this->user_id = $user_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeEnd()
+    {
+        return $this->timeEnd;
+    }
+
+    /**
+     * @param mixed $timeEnd
+     */
+    public function setTimeEnd($timeEnd): void
+    {
+        $this->timeEnd = $timeEnd;
     }
 }

@@ -46,14 +46,17 @@ class TimeController
      */
     public function make(Request $request): Response
     {
-        $token = $request->headers->get('X-AUTH-TOKEN');
-        $token = str_replace('\\', '', $token);
+        /*$token = $request->headers->get('X-AUTH-TOKEN');
+        $token = str_replace('\\', '', $token);*/
+
+        $token= $request->query->get('token');
         $day = $request->query->get('day');
-        $time = $request->query->get('time');
+        $timeStart = $request->query->get('timeStart');
+        $timeEnd = $request->query->get('timeEnd');
 
-        $this->logger->debug("р", $request->headers->all());
+        /*$this->logger->debug("р", $request->headers->all());*/
 
-        if (null === $token ||  null === $day || null === $time) {
+        if (null === $token ||  null === $day || null === $timeStart || null === $timeEnd) {
             return new JsonResponse('Data is incorrect', 500);
         }
 
@@ -65,7 +68,8 @@ class TimeController
 
         $timeObject = new Time();
         $timeObject->setDay($day);
-        $timeObject->setTime($time);
+        $timeObject->setTimeStart($timeStart);
+        $timeObject->setTimeEnd($timeEnd);
         $timeObject->setUserId($user);
         $this->timeRepository->save($timeObject);
 
@@ -79,10 +83,12 @@ class TimeController
      */
     public function get(Request $request): Response
     {
-        $token = $request->headers->get('X-AUTH-TOKEN');
-        $token = str_replace('\\', '', $token);
+        /*$token = $request->headers->get('X-AUTH-TOKEN');
+        $token = str_replace('\\', '', $token);*/
 
-        $this->logger->debug("р", $request->headers->all());
+        /*$this->logger->debug("р", $request->headers->all());*/
+
+        $token= $request->query->get('token');
 
         if (null === $token) {
             return new JsonResponse('Token is incorrect', 500);
@@ -99,7 +105,8 @@ class TimeController
         $result = array();
 
         foreach ($times as $time) {
-            $result[] = ['day' => $time->getDay(), 'time' => $time->getTime()];
+            $result[] = ['day' => $time->getDay(), 'timeStart' => $time->getTimeStart(),
+                'timeEnd' => $time->getTimeEnd()];
         }
 
         return new JsonResponse($result);
